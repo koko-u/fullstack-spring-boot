@@ -1,0 +1,16 @@
+### Get Products
+GET http://localhost:8080/api/products
+
+### Post Product
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "sku": "BOOK-TECH-1004",
+  "name": "The Go Programming Language: A to Z",
+  "description": "Learn Go",
+  "unitPrice": 24.99
+}
+
+### Delete Product
+DELETE http://localhost:8080/api/products/1

@@ -1,0 +1,7 @@
+refer
+https://stackoverflow.com/questions/37404703/spring-boot-how-to-hide-passwords-in-properties-file
+
+https://github.com/ulisesbocchio/jasypt-spring-boot
+
+command
+java -cp jasypt-1.9.3.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI input="SECRET PASSWORD" password=FOR_ENV_VAR algorithm=PBEWithMD5AndDES
