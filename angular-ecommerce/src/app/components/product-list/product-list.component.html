@@ -1,22 +1,79 @@
-<table class="table table-bordered table-striped">
-  <thead class="table-dark">
-  <tr>
-    <th></th>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Units in Stock</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let product of products$ | async">
-    <td class="product-image text-center">
-      <img [src]="product.imageUrl" [alt]="product.name">
-    </td>
-    <td class="align-middle">{{ product.name }}</td>
-    <td class="align-middle text-end">{{ product.unitPrice | currency }}</td>
-    <td class="align-middle text-end">{{ product.unitsInStock }}</td>
-  </tr>
-  </tbody>
-</table>
+<div class="section-content section-content-p30">
+  <div class="container-fluid">
+    <div class="row">
+      <ng-container *ngFor="let product of products$ | async">
+        <div class="col-md-3">
+          <div class="product-box">
+            <img [src]="product.imageUrl"
+                 [alt]="product.name"
+                 class="img-fluid">
+            <h1>{{ product.name }}</h1>
+            <h2>
+              {{ product.description | shorten: 40:'...' }}
+            </h2>
+            <div class="price">
+              {{ product.unitPrice | currency }}
+            </div>
+            <a href="" class="primary-btn">
+              Add to Cart
+            </a>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="footer-pagination">
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-3">
+          <div class="items">
+            <label>Item per page</label> <select>
+            <option>10</option>
+            <option>20</option>
+            <option>30</option>
+            <option>40</option>
+          </select>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="number">1 - 10 of 100</div>
+        </div>
+        <div class="col-md-1">
+          <div class="arrows">
+            <a href="#">
+              <fa-icon [icon]="angleLeftIcon"></fa-icon>
+            </a>
+            <a href="#">
+              <fa-icon [icon]="angleRightIcon"></fa-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--<table class="table table-bordered table-striped">-->
+<!--  <thead class="table-dark">-->
+<!--  <tr>-->
+<!--    <th></th>-->
+<!--    <th>Name</th>-->
+<!--    <th>Price</th>-->
+<!--    <th>Units in Stock</th>-->
+<!--  </tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+<!--  <tr *ngFor="let product of products$ | async">-->
+<!--    <td class="product-image text-center">-->
+<!--      <img [src]="product.imageUrl" [alt]="product.name">-->
+<!--    </td>-->
+<!--    <td class="align-middle">{{ product.name }}</td>-->
+<!--    <td class="align-middle text-end">{{ product.unitPrice | currency }}</td>-->
+<!--    <td class="align-middle text-end">{{ product.unitsInStock }}</td>-->
+<!--  </tr>-->
+<!--  </tbody>-->
+<!--</table>-->
 
 
