@@ -5,3 +5,9 @@ https://github.com/ulisesbocchio/jasypt-spring-boot
 
 command
 java -cp jasypt-1.9.3.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI input="SECRET PASSWORD" password=FOR_ENV_VAR algorithm=PBEWithMD5AndDES
+
+how to run
+JASYPT_ENCRYPTOR_PASSWORD=FOR_ENV_VAR ./gradlew bootRun
+
+or
+./gradlew bootRun -Djasypt.encryptor.password=FOR_ENV_VAR

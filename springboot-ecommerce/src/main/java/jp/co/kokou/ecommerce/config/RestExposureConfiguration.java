@@ -31,7 +31,7 @@ public class RestExposureConfiguration implements RepositoryRestConfigurer {
                 .withItemExposure(onlyAllowGetMethod)
                 .withCollectionExposure(onlyAllowGetMethod);
 
-        cors.addMapping("/api/*")
+        cors.addMapping("/api/**")
                 .allowedOrigins("http://localhost:4200")
                 .allowedMethods(HttpMethod.GET.name())
                 .allowCredentials(false)

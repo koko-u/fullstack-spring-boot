@@ -1,6 +1,9 @@
 ### Get Products
 GET http://localhost:8080/api/products
 
+### Get Products by it's Category
+GET http://localhost:8080/api/products/search/findByCategoryId?categoryId=3
+
 ### Post Product
 POST http://localhost:8080/api/products
 Content-Type: application/json

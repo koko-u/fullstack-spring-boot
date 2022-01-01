@@ -381,6 +381,10 @@ input.au-input.au-input-xl {
   color: #0da8e4
 }
 
+.navbar-sidebar .navbar-list li a.active-link {
+  color: darkblue;
+}
+
 /*
  * ----------------------------
  * Header Mobile Section
