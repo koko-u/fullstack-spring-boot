@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment'
 import { map, Observable } from 'rxjs'
 import { Product } from '../shared/models/product.model'
 import { QueryParam } from '../shared/models/query-param.model'
+import { QueryParamService } from './query-param.service'
 
 type ProductsResponse = {
   _embedded: {
@@ -13,19 +14,22 @@ type ProductsResponse = {
 
 @Injectable()
 export class ProductService {
-  constructor(private http: HttpClient) {}
-
-  // getProducts$(): Observable<Product[]> {
-  //   return this.http
-  //     .get<ProductsResponse>(`${environment.endPoint}/products`)
-  //     .pipe(map(({ _embedded: value }) => value.products))
-  // }
+  constructor(
+    private http: HttpClient,
+    private queryParam: QueryParamService
+  ) {}
 
   getProducts$(
     param: QueryParam & { categoryId: number | undefined }
   ): Observable<Product[]> {
+    const queryParams = this.queryParam.extract(param)
+    const url =
+      `${environment.endPoint}/products` +
+      `${param.categoryId ? '/search/findByCategoryId' : ''}` +
+      `${queryParams.length > 0 ? '?' + queryParams.join('&') : ''}`
+
     return this.http
-      .get<ProductsResponse>(createUrlFrom(param))
+      .get<ProductsResponse>(url)
       .pipe(map(({ _embedded: value }) => value.products))
   }
 
@@ -38,27 +42,27 @@ export class ProductService {
       .pipe(map(({ _embedded: value }) => value.products))
   }
 }
-
-const createUrlFrom = (
-  param: QueryParam & { categoryId: number | undefined }
-): string => {
-  let noQueryParam = true
-  let url = `${environment.endPoint}/products`
-  if (param.categoryId) {
-    url += `/search/findByCategoryId?categoryId=${param.categoryId}`
-    noQueryParam = false
-  }
-  if (param.page) {
-    url += `${noQueryParam ? '?' : '&'}page=${param.page}`
-    noQueryParam = false
-  }
-  if (param.size) {
-    url += `${noQueryParam ? '?' : '&'}size=${param.size}`
-    noQueryParam = false
-  }
-  if (param.sort) {
-    url += `${noQueryParam ? '?' : '&'}sort=${param.sort}`
-    noQueryParam = false
-  }
-  return url
-}
+//
+// const createUrlFrom = (
+//   param: QueryParam & { categoryId: number | undefined }
+// ): string => {
+//   let noQueryParam = true
+//   let url = `${environment.endPoint}/products`
+//   if (param.categoryId) {
+//     url += `/search/findByCategoryId?categoryId=${param.categoryId}`
+//     noQueryParam = false
+//   }
+//   if (param.page) {
+//     url += `${noQueryParam ? '?' : '&'}page=${param.page}`
+//     noQueryParam = false
+//   }
+//   if (param.size) {
+//     url += `${noQueryParam ? '?' : '&'}size=${param.size}`
+//     noQueryParam = false
+//   }
+//   if (param.sort) {
+//     url += `${noQueryParam ? '?' : '&'}sort=${param.sort}`
+//     noQueryParam = false
+//   }
+//   return url
+// }

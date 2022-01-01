@@ -7,36 +7,12 @@
   <div class="menu-sidebar-content js-scrollbar1">
     <nav class="navbar-sidebar">
       <ul class="list-unstyled navbar-list">
-        <li>
+        <li *ngFor="let category of categories$ | async">
           <a [routerLink]="['products']"
-             [queryParams]="{ categoryId: 1 }"
+             [queryParams]="{ categoryId: category.id }"
              routerLinkActive="active-link"
           >
-            Books
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="['products']"
-             [queryParams]="{ categoryId: 2 }"
-             routerLinkActive="active-link"
-          >
-            Coffee Mugs
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="['products']"
-             [queryParams]="{ categoryId: 3 }"
-             routerLinkActive="active-link"
-          >
-            Mouse Pads
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="['products']"
-             [queryParams]="{ categoryId: 4 }"
-             routerLinkActive="active-link"
-          >
-            Luggage Tags
+            {{ category.categoryName }}
           </a>
         </li>
       </ul>

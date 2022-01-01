@@ -7,11 +7,13 @@ import { HttpClientModule } from '@angular/common/http'
 import { HeaderModule } from './components/header/header.module'
 import { FooterModule } from './components/footer/footer.module'
 import { SidebarModule } from './components/sidebar/sidebar.module'
+import { ProductModule } from './components/product/product.module'
 
 import { AppComponent } from './app.component'
 
 import { ProductService } from './services/product.service'
-import { ProductModule } from './components/product/product.module'
+import { CategoryService } from './services/category.service'
+import { QueryParamService } from './services/query-param.service'
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +26,7 @@ import { ProductModule } from './components/product/product.module'
     SidebarModule,
     ProductModule,
   ],
-  providers: [ProductService],
+  providers: [ProductService, CategoryService, QueryParamService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
