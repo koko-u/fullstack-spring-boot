@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { environment } from '../../environments/environment'
 import { map, Observable } from 'rxjs'
 import { Product } from '../shared/models/product.model'
@@ -23,38 +23,30 @@ export class ProductService {
     keyword?: string,
     param?: T
   ): Observable<Product[]> {
-    const url = this.getUrl(categoryId, keyword, param)
+    const { url, params } = this.getUrl(param, categoryId, keyword)
     return this.http
-      .get<ProductsResponse>(url)
+      .get<ProductsResponse>(url, { params })
       .pipe(map(({ _embedded: value }) => value.products))
   }
 
   private getUrl<T extends ParamLike>(
+    param?: T,
     categoryId?: number,
-    keyword?: string,
-    param?: T
-  ): string {
-    const queryParams = param
-      ? this.queryParam.extract(param, 'page', 'size', 'sort')
-      : []
+    keyword?: string
+  ): { url: string; params: HttpParams } {
+    const params = this.queryParam.createHttpParams(param, categoryId, keyword)
 
-    let baseUrl: string
-
+    let url: string
     if (keyword) {
-      baseUrl = `${environment.endPoint}/products/search/queryByKeyword?keyword=${keyword}`
-      const categoryCond = categoryId ? `&categoryId=${categoryId}` : ''
-      const pagingCond =
-        queryParams.length > 0 ? `&${queryParams.join('&')}` : ''
-      return `${baseUrl}${categoryCond}${pagingCond}`
+      url = `${environment.endPoint}/products/search/queryByKeyword`
     } else {
       if (categoryId) {
-        baseUrl = `${environment.endPoint}/product-category/${categoryId}/products`
+        url = `${environment.endPoint}/product-category/${categoryId}/products`
       } else {
-        baseUrl = `${environment.endPoint}/products`
+        url = `${environment.endPoint}/products`
       }
-      const pagingCond =
-        queryParams.length > 0 ? `&${queryParams.join('&')}` : ''
-      return `${baseUrl}${pagingCond}`
     }
+
+    return { url, params }
   }
 }

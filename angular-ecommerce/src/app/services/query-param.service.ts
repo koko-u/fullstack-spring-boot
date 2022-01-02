@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { ParamMap } from '@angular/router'
+import { HttpParams } from '@angular/common/http'
 
 export type ParamLike = {
   has(key: string): boolean
@@ -22,5 +23,34 @@ export class QueryParamService {
     }
 
     return result
+  }
+
+  createHttpParams<T extends ParamLike>(
+    param?: T,
+    categoryId?: number,
+    keyword?: string
+  ): HttpParams {
+    let params = new HttpParams()
+    if (keyword) {
+      params = params.append('keyword', keyword)
+    }
+    if (categoryId) {
+      params = params.append('categoryId', categoryId)
+    }
+    if (param) {
+      const page = param.get('page')
+      if (page) {
+        params = params.append('page', page)
+      }
+      const size = param.get('size')
+      if (size) {
+        params = params.append('size', size)
+      }
+      const sort = param.get('sort')
+      if (sort) {
+        params = params.append('sort', sort)
+      }
+    }
+    return params
   }
 }

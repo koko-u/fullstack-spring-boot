@@ -21,15 +21,11 @@ export class CategoryService {
   getCategories$<T extends ParamLike>(
     param?: T
   ): Observable<ProductCategory[]> {
-    const queryParams = param
-      ? this.queryParam.extract(param, 'page', 'size', 'sort')
-      : []
-    const url =
-      `${environment.endPoint}/product-category` +
-      `${queryParams.length > 0 ? '?' + queryParams.join('&') : ''}`
+    const params = this.queryParam.createHttpParams(param)
+    const url = `${environment.endPoint}/product-category`
 
     return this.http
-      .get<CategoryResponse>(url)
+      .get<CategoryResponse>(url, { params })
       .pipe(map(({ _embedded: value }) => value.productCategory))
   }
 }
