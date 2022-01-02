@@ -1,18 +1,13 @@
 <div class="product-box">
-  <div class="box-area">
+  <div class="box-area" (click)="navigateToDetailPage()">
     <img [src]="product.imageUrl"
          [alt]="product.name"
          class="img-fluid"
-         (click)="navigateToDetailPage()"
     >
-    <h1
-      (click)="navigateToDetailPage()"
-    >
+    <h1>
       {{ product.name }}
     </h1>
-    <h2
-      (click)="navigateToDetailPage()"
-    >
+    <h2>
       {{ product.description | shorten: 40:'...' }}
     </h2>
   </div>
