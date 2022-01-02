@@ -2,10 +2,10 @@
 GET http://localhost:8080/api/products
 
 ### Get Products by it's Category
-GET http://localhost:8080/api/product-category/3/products
+GET http://localhost:8080/api/product-category/1/products
 
 ### Get Products by keyword
-GET http://localhost:8080/api/products/search/queryByKeyword?name=express&categoryId=2&page=0&size=20
+GET http://localhost:8080/api/products/search/queryByKeyword?keyword=d&categoryId=1&page=0&size=20
 
 ### Post Product
 POST http://localhost:8080/api/products

@@ -3,6 +3,10 @@ import { ProductService } from '../../../services/product.service'
 import { map, Observable, switchMap } from 'rxjs'
 import { Product } from '../../../shared/models/product.model'
 import { ActivatedRoute, ParamMap } from '@angular/router'
+import {
+  pickCategoryId,
+  pickKeyword,
+} from '../../../shared/utils/query-param.utils'
 
 @Component({
   selector: 'ec-product-list',
@@ -19,30 +23,18 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.products$ = this.route.queryParamMap.pipe(
-      map((paramMap) => {
-        const categoryId = pickCategoryId(paramMap)
-        return [categoryId, paramMap] as [number | undefined, ParamMap]
-      }),
-      switchMap(([categoryId, paramMap]) => {
-        if (categoryId) {
-          return this.productService.getProductsByCategory$(
-            categoryId,
-            paramMap
-          )
-        } else {
-          return this.productService.getProducts$(paramMap)
-        }
+      // map((paramMap) => {
+      //   const categoryId = pickCategoryId(paramMap)
+      //   const keyword = pickKeyword(paramMap)
+      //   return { categoryId, keyword, paramMap }
+      // }),
+      switchMap((paramMap) => {
+        return this.productService.searchProducts$(
+          pickCategoryId(paramMap),
+          pickKeyword(paramMap),
+          paramMap
+        )
       })
     )
   }
-}
-
-const pickCategoryId = (paramMap: ParamMap): number | undefined => {
-  if (paramMap.has('categoryId')) {
-    const categoryId = Number(paramMap.get('categoryId'))
-    if (!isNaN(categoryId)) {
-      return categoryId
-    }
-  }
-  return undefined
 }
