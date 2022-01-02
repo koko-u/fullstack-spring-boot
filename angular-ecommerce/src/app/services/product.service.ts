@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { environment } from '../../environments/environment'
-import { map, Observable } from 'rxjs'
+import { EMPTY, map, Observable } from 'rxjs'
 import { Product } from '../shared/models/product.model'
 import { ParamLike, QueryParamService } from './query-param.service'
 
@@ -48,5 +48,10 @@ export class ProductService {
     }
 
     return { url, params }
+  }
+
+  getProductById$(id: number): Observable<Product> {
+    const url = `${environment.endPoint}/products/${id}`
+    return this.http.get<Product>(url)
   }
 }

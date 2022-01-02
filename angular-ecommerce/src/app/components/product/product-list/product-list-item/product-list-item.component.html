@@ -1,0 +1,26 @@
+<div class="product-box">
+  <div class="box-area">
+    <img [src]="product.imageUrl"
+         [alt]="product.name"
+         class="img-fluid"
+         (click)="navigateToDetailPage()"
+    >
+    <h1
+      (click)="navigateToDetailPage()"
+    >
+      {{ product.name }}
+    </h1>
+    <h2
+      (click)="navigateToDetailPage()"
+    >
+      {{ product.description | shorten: 40:'...' }}
+    </h2>
+  </div>
+  <div class="price">
+    {{ product.unitPrice | currency }}
+  </div>
+  <a class="cart-btn primary-btn" (click)="addCart()">
+    Add to Cart
+  </a>
+</div>
+

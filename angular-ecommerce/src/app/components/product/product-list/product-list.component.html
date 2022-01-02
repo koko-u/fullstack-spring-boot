@@ -3,21 +3,7 @@
     <div class="row">
       <ng-container *ngFor="let product of products$ | async">
         <div class="col-md-3">
-          <div class="product-box">
-            <img [src]="product.imageUrl"
-                 [alt]="product.name"
-                 class="img-fluid">
-            <h1>{{ product.name }}</h1>
-            <h2>
-              {{ product.description | shorten: 40:'...' }}
-            </h2>
-            <div class="price">
-              {{ product.unitPrice | currency }}
-            </div>
-            <a href="" class="primary-btn">
-              Add to Cart
-            </a>
-          </div>
+          <ec-product-list-item [product]="product"></ec-product-list-item>
         </div>
       </ng-container>
 
