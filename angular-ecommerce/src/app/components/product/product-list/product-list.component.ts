@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { ProductService } from '../../../services/product.service'
-import { map, Observable, switchMap } from 'rxjs'
+import { map, Observable, switchMap, tap } from 'rxjs'
 import { Product } from '../../../shared/models/product.model'
-import { ActivatedRoute, ParamMap } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import {
   pickCategoryId,
   pickKeyword,
@@ -16,6 +16,8 @@ import {
 export class ProductListComponent implements OnInit {
   products$!: Observable<Product[]>
 
+  noProducts = true
+
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute
@@ -23,17 +25,15 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.products$ = this.route.queryParamMap.pipe(
-      // map((paramMap) => {
-      //   const categoryId = pickCategoryId(paramMap)
-      //   const keyword = pickKeyword(paramMap)
-      //   return { categoryId, keyword, paramMap }
-      // }),
       switchMap((paramMap) => {
         return this.productService.searchProducts$(
           pickCategoryId(paramMap),
           pickKeyword(paramMap),
           paramMap
         )
+      }),
+      tap((products) => {
+        this.noProducts = products.length === 0
       })
     )
   }

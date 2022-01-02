@@ -20,8 +20,14 @@
           </div>
         </div>
       </ng-container>
+
     </div>
 
+    <div *ngIf="noProducts"
+         class="alert border border-warning border-1 bg-light col-md-12 shadow-sm"
+    >
+      No products found.
+    </div>
     <ec-pagination></ec-pagination>
   </div>
 </div>
