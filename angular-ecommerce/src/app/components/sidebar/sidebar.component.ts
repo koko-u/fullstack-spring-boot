@@ -9,16 +9,12 @@ import { ProductCategory } from '../../shared/models/product-category.model'
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  private _categories$: Observable<ProductCategory[]> | undefined
-  get categories$(): Observable<ProductCategory[]> {
-    if (this._categories$ === undefined) throw new Error()
-    return this._categories$
-  }
+  categories$!: Observable<ProductCategory[]>
 
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this._categories$ = this.categoryService.getCategories$({
+    this.categories$ = this.categoryService.getCategories$({
       sort: 'categoryName',
     })
   }

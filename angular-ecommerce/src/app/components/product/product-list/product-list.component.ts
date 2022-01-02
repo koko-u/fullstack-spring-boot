@@ -11,11 +11,7 @@ import { QueryParam } from '../../../shared/models/query-param.model'
   styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
-  private _products$: Observable<Product[]> | undefined
-  get products$(): Observable<Product[]> {
-    if (this._products$ === undefined) throw new Error()
-    return this._products$
-  }
+  products$!: Observable<Product[]>
 
   constructor(
     private productService: ProductService,
@@ -23,7 +19,7 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._products$ = this.route.queryParamMap.pipe(
+    this.products$ = this.route.queryParamMap.pipe(
       map((paramMap) => {
         const categoryId = pickCategoryId(paramMap)
         const queryParam = pickQueryParam(paramMap)
