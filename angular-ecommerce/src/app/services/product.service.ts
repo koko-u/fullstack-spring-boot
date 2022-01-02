@@ -29,31 +29,6 @@ export class ProductService {
       .pipe(map(({ _embedded: value }) => value.products))
   }
 
-  // getProducts$<T extends ParamLike>(param: T): Observable<Product[]> {
-  //   const queryParams = this.queryParam.extract(param, 'page', 'size', 'sort')
-  //   const url =
-  //     `${environment.endPoint}/products` +
-  //     `${queryParams.length > 0 ? '?' + queryParams.join('&') : ''}`
-  //
-  //   return this.http
-  //     .get<ProductsResponse>(url)
-  //     .pipe(map(({ _embedded: value }) => value.products))
-  // }
-  //
-  // getProductsByCategory$<T extends ParamLike>(
-  //   categoryId: number,
-  //   param?: T
-  // ): Observable<Product[]> {
-  //   const queryParams = param ? this.queryParam.extract(param) : []
-  //   const url =
-  //     `${environment.endPoint}/product-category/${categoryId}/products` +
-  //     `${queryParams ? '?' + queryParams.join('&') : ''}`
-  //
-  //   return this.http
-  //     .get<ProductsResponse>(url)
-  //     .pipe(map(({ _embedded: value }) => value.products))
-  // }
-
   private getUrl<T extends ParamLike>(
     categoryId?: number,
     keyword?: string,
@@ -63,7 +38,7 @@ export class ProductService {
       ? this.queryParam.extract(param, 'page', 'size', 'sort')
       : []
 
-    let baseUrl = ''
+    let baseUrl: string
 
     if (keyword) {
       baseUrl = `${environment.endPoint}/products/search/queryByKeyword?keyword=${keyword}`

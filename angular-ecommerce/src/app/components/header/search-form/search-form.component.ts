@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ControlsOf, FormControl, FormGroup } from '@ngneat/reactive-forms'
-import { Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { combineLatest, map, Observable, tap } from 'rxjs'
+import { combineLatest, map, Observable } from 'rxjs'
 import {
   pickCategoryId,
   pickKeyword,
@@ -17,6 +16,7 @@ export class SearchFormComponent implements OnInit {
   searchForm = new FormGroup<ControlsOf<{ keyword: string }>>({
     keyword: new FormControl<string>(''),
   })
+
   get categoryId$(): Observable<number | undefined> {
     return this.route.queryParamMap.pipe(map(pickCategoryId))
   }
@@ -31,20 +31,18 @@ export class SearchFormComponent implements OnInit {
     })
   }
 
-  async searchByKeyword() {
+  searchByKeyword() {
     if (this.searchForm.invalid) return
 
-    let queryParams = {}
     const subscription = combineLatest([
       this.categoryId$,
       this.searchForm.controls.keyword.value$,
-    ])
-      .pipe(map(([categoryId, keyword]) => ({ categoryId, keyword })))
-      .subscribe({
-        next: (p) => (queryParams = p),
+    ]).subscribe(async ([categoryId, keyword]) => {
+      await this.router.navigate(['/products'], {
+        queryParams: { categoryId, keyword },
       })
+    })
 
-    await this.router.navigate(['/products'], { queryParams })
     subscription.unsubscribe()
   }
 }
