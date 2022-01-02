@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { ProductService } from '../../../services/product.service'
-import { concatMap, map, Observable, switchMap, tap } from 'rxjs'
+import { map, Observable, switchMap } from 'rxjs'
 import { Product } from '../../../shared/models/product.model'
 import { ActivatedRoute, ParamMap } from '@angular/router'
-import { QueryParam } from '../../../shared/models/query-param.model'
 
 @Component({
   selector: 'ec-product-list',
@@ -22,13 +21,18 @@ export class ProductListComponent implements OnInit {
     this.products$ = this.route.queryParamMap.pipe(
       map((paramMap) => {
         const categoryId = pickCategoryId(paramMap)
-        const queryParam = pickQueryParam(paramMap)
-        return {
-          categoryId,
-          ...queryParam,
-        }
+        return [categoryId, paramMap] as [number | undefined, ParamMap]
       }),
-      switchMap((param) => this.productService.getProducts$(param))
+      switchMap(([categoryId, paramMap]) => {
+        if (categoryId) {
+          return this.productService.getProductsByCategory$(
+            categoryId,
+            paramMap
+          )
+        } else {
+          return this.productService.getProducts$(paramMap)
+        }
+      })
     )
   }
 }
@@ -41,37 +45,4 @@ const pickCategoryId = (paramMap: ParamMap): number | undefined => {
     }
   }
   return undefined
-}
-
-const pickQueryParam = (paramMap: ParamMap): QueryParam => {
-  let param: QueryParam = {}
-  if (paramMap.has('page')) {
-    const page = Number(paramMap.get('page'))
-    if (!isNaN(page)) {
-      param = {
-        ...param,
-        page,
-      }
-    }
-  }
-  if (paramMap.has('size')) {
-    const size = Number(paramMap.get('size'))
-    if (!isNaN(size)) {
-      param = {
-        ...param,
-        size,
-      }
-    }
-  }
-  if (paramMap.has('sort')) {
-    const sort = paramMap.get('sort')
-    if (sort) {
-      param = {
-        ...param,
-        sort,
-      }
-    }
-  }
-
-  return param
 }

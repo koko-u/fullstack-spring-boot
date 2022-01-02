@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByCategoryId(@Param("categoryId") Long id, Pageable pageable);
-
-    @Query("select p from Product p where p.name like ?1 and p.category.id = ?2")
-    List<Product> queryByKeyword(@Param("name") String name, @Param("categoryId") Long id, Pageable pageable);
+    @Query("select p from Product p where p.name like %?1% and p.category.id = ?2")
+    List<Product> queryByKeyword(@Param("keyword") String keyword, @Param("categoryId") Long id, Pageable pageable);
 }

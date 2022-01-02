@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { map, Observable } from 'rxjs'
 import { ProductCategory } from '../shared/models/product-category.model'
 import { environment } from '../../environments/environment'
-import { QueryParamService } from './query-param.service'
-import { QueryParam } from '../shared/models/query-param.model'
+import { ParamLike, QueryParamService } from './query-param.service'
 
 type CategoryResponse = {
   _embedded: {
@@ -19,8 +18,12 @@ export class CategoryService {
     private queryParam: QueryParamService
   ) {}
 
-  getCategories$(param: QueryParam): Observable<ProductCategory[]> {
-    const queryParams = this.queryParam.extract(param)
+  getCategories$<T extends ParamLike>(
+    param?: T
+  ): Observable<ProductCategory[]> {
+    const queryParams = param
+      ? this.queryParam.extract(param, 'page', 'size', 'sort')
+      : []
     const url =
       `${environment.endPoint}/product-category` +
       `${queryParams.length > 0 ? '?' + queryParams.join('&') : ''}`
