@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { NgStringPipesModule } from 'ngx-pipes'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 
 import { ProductListComponent } from './product-list/product-list.component'
 import { PaginationComponent } from './product-list/pagination/pagination.component'
@@ -16,7 +17,13 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
     ProductListItemComponent,
     ProductDetailComponent,
   ],
-  imports: [CommonModule, NgStringPipesModule, FontAwesomeModule, RouterModule],
+  imports: [
+    CommonModule,
+    NgStringPipesModule,
+    FontAwesomeModule,
+    RouterModule,
+    NgbPaginationModule,
+  ],
   exports: [ProductListComponent, ProductDetailComponent],
 })
 export class ProductModule {}

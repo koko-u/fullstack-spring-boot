@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core'
 import { CategoryService } from '../../services/category.service'
 import { Observable } from 'rxjs'
 import { ProductCategory } from '../../shared/models/product-category.model'
+import { ParamLike } from '../../services/query-param.service'
 
-const sortByCategoryName = {
+const sortByCategoryName: ParamLike = {
+  keys: ['sort'],
   has: (name: string) => name === 'sort',
   get: (key: string) => (key === 'sort' ? 'categoryName' : null),
 }

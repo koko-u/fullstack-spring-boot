@@ -1,6 +1,9 @@
 ### Get Products
 GET http://localhost:8080/api/products
 
+### Get Products of second page
+GET http://localhost:8080/api/products?size=10&page=1
+
 ### Get Products by it's Category
 GET http://localhost:8080/api/product-category/1/products
 

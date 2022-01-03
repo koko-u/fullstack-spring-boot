@@ -1,28 +1,15 @@
 <div class="footer-pagination">
-  <div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-3">
-      <div class="items">
-        <label>Item per page</label> <select>
-        <option>10</option>
-        <option>20</option>
-        <option>30</option>
-        <option>40</option>
-      </select>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="number">1 - 10 of 100</div>
-    </div>
-    <div class="col-md-1">
-      <div class="arrows">
-        <a href="#">
-          <fa-icon [icon]="angleLeftIcon"></fa-icon>
-        </a>
-        <a href="#">
-          <fa-icon [icon]="angleRightIcon"></fa-icon>
-        </a>
-      </div>
+  <div class="row justify-content-end">
+    <div class="col-auto">
+      <ngb-pagination
+        *ngIf="page$ | async as page"
+        [boundaryLinks]="true"
+        [collectionSize]="page.totalElements"
+        [maxSize]="5"
+        [page]="page.number + 1"
+        [pageSize]="page.size"
+        (pageChange)="onPageChange($event)"
+      ></ngb-pagination>
     </div>
   </div>
 </div>

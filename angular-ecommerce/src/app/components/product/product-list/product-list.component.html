@@ -14,6 +14,6 @@
     >
       No products found.
     </div>
-    <ec-pagination></ec-pagination>
+    <ec-pagination [page]="page$" (pageChanged)="onPageChange($event)"></ec-pagination>
   </div>
 </div>
